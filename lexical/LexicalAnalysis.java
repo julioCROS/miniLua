@@ -38,7 +38,7 @@ public class LexicalAnalysis implements AutoCloseable {
         int state = 1;
         while (state != 17 && state != 18) {
             int c = getc();
-            System.out.printf(" [%02d, %03d ('%c')]\n", state, c, (char) c);
+            // System.out.printf(" [%02d, %03d ('%c')]\n", state, c, (char) c);
 
             switch (state) {
                 case 1:
@@ -195,7 +195,7 @@ public class LexicalAnalysis implements AutoCloseable {
                 case 14:
                     if (c == '"') {
                         lex.token += (char) c;
-                        state = 18;
+                        state = 17;
                     } else {
                         lex.token += (char) c;
                         state = 14;
