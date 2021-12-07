@@ -1,2 +1,1 @@
-abc = 123;
-print(abc);
+print("Ola mundo");
