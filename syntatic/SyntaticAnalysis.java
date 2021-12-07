@@ -18,19 +18,19 @@ public class SyntaticAnalysis {
     public Command start() {
         procCode();
         eat(TokenType.END_OF_FILE);
-        
+
         return null;
     }
 
     private void advance() {
         System.out.println("Advanced (\"" + current.token + "\", " +
-            current.type + ")");
+                current.type + ")");
         current = lex.nextToken();
     }
 
     private void eat(TokenType type) {
-        System.out.println("Expected (..., " + type + "), found (\"" + 
-            current.token + "\", " + current.type + ")");
+        System.out.println("Expected (..., " + type + "), found (\"" +
+                current.token + "\", " + current.type + ")");
         if (type == current.type) {
             current = lex.nextToken();
         } else {
@@ -94,7 +94,8 @@ public class SyntaticAnalysis {
         }
     }
 
-    // <if> ::= if <expr> then <code> { elseif <expr> then <code> } [ else <code> ] end
+    // <if> ::= if <expr> then <code> { elseif <expr> then <code> } [ else <code> ]
+    // end
     private void procIf() {
         eat(TokenType.IF);
         procExpr();
@@ -124,14 +125,30 @@ public class SyntaticAnalysis {
 
     // <repeat> ::= repeat <code> until <expr>
     private void procRepeat() {
+        eat(TokenType.REPEAT);
+        procCode();
+        eat(TokenType.UNTIL);
+        procExpr();
     }
 
-    // <for> ::= for <name> (('=' <expr> ',' <expr> [',' <expr>]) | ([',' <name>] in <expr>)) do <code> end
+    // <for> ::= for <name> (('=' <expr> ',' <expr> [',' <expr>]) | ([',' <name>] in
+    // <expr>)) do <code> end
     private void procFor() {
     }
 
     // <print> ::= print '(' [ <expr> ] ')'
     private void procPrint() {
+        procPrint();
+        eat(TokenType.OPEN_PAR);
+        if (current.type == TokenType.ADD || current.type == TokenType.STRING
+                || current.type == TokenType.SUB || current.type == TokenType.OPEN_PAR
+                || current.type == TokenType.ID || current.type == TokenType.NUMBER
+                || current.type == TokenType.READ || current.type == TokenType.OPEN_BRA
+                || current.type == TokenType.OPEN_CUR || current.type == TokenType.TONUMBER
+                || current.type == TokenType.TOSTRING || current.type == TokenType.READ) {
+            procExpr();
+        }
+        eat(TokenType.CLOSE_PAR);
     }
 
     // <assign> ::= <lvalue> { ',' <lvalue> } '=' <expr> { ',' <expr> }
