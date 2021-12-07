@@ -61,7 +61,6 @@ public class LexicalAnalysis implements AutoCloseable {
                         lex.token += (char) c;
                         state = 13;
                     } else if (c == '"') {
-                        lex.token += (char) c;
                         state = 14;
                     } else if (Character.isDigit(c)) {
                         lex.token += (char) c;
@@ -194,7 +193,6 @@ public class LexicalAnalysis implements AutoCloseable {
                     break;
                 case 14:
                     if (c == '"') {
-                        lex.token += (char) c;
                         lex.type = TokenType.STRING;
                         state = 18;
                     } else {
