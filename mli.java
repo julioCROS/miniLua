@@ -24,8 +24,8 @@ public class mli {
             Lexeme lex;
             do {
                 lex = l.nextToken();
-                System.out.printf("%02d: (\"%s\", %s)\n", l.getLine(),
-                        lex.token, lex.type);
+                //System.out.printf("%02d: (\"%s\", %s)\n", l.getLine(),
+                //        lex.token, lex.type);
             } while (lex.type != TokenType.END_OF_FILE &&
                     lex.type != TokenType.INVALID_TOKEN &&
                     lex.type != TokenType.UNEXPECTED_EOF);
