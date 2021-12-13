@@ -160,7 +160,7 @@ public class SyntaticAnalysis {
 
     // <print> ::= print '(' [ <expr> ] ')'
     private void procPrint() {
-        procPrint();
+        eat(TokenType.PRINT);
         eat(TokenType.OPEN_PAR);
         if (current.type == TokenType.OPEN_PAR || current.type == TokenType.SUB
                 || current.type == TokenType.HASH || current.type == TokenType.NOT || current.type == TokenType.NUMBER
@@ -170,6 +170,8 @@ public class SyntaticAnalysis {
                 || current.type == TokenType.TOSTRING || current.type == TokenType.OPEN_CUR
                 || current.type == TokenType.OPEN_PAR || current.type == TokenType.ID) {
             procExpr();
+        } else {
+            showError();
         }
         eat(TokenType.CLOSE_PAR);
     }
@@ -242,7 +244,12 @@ public class SyntaticAnalysis {
             procExpr();
             eat(TokenType.CLOSE_PAR);
         } else if (current.type == TokenType.SUB || current.type == TokenType.OPEN_PAR
-                || current.type == TokenType.HASH) {
+                || current.type == TokenType.HASH || current.type == TokenType.NUMBER
+                || current.type == TokenType.STRING || current.type == TokenType.FALSE
+                || current.type == TokenType.TRUE || current.type == TokenType.NIL
+                || current.type == TokenType.READ || current.type == TokenType.TONUMBER
+                || current.type == TokenType.TOSTRING || current.type == TokenType.OPEN_CUR
+                || current.type == TokenType.ID) {
             procRValue();
         }
     }
