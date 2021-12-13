@@ -134,19 +134,44 @@ public class SyntaticAnalysis {
     // <for> ::= for <name> (('=' <expr> ',' <expr> [',' <expr>]) | ([',' <name>] in
     // <expr>)) do <code> end
     private void procFor() {
+        eat(TokenType.FOR);
+        procName();
+        if (current.type == TokenType.ASSIGN) {
+            advance();
+            procExpr();
+            eat(TokenType.COLON);
+            procExpr();
+            if (current.type == TokenType.COLON) {
+                advance();
+                procExpr();
+            }
+        } else if (current.type == TokenType.COLON) {
+            advance();
+            procName();
+            eat(TokenType.IN);
+            procExpr();
+        } else {
+            showError();
+        }
+        eat(TokenType.DO);
+        procCode();
+        eat(TokenType.END);
     }
 
     // <print> ::= print '(' [ <expr> ] ')'
     private void procPrint() {
-        procPrint();
+        eat(TokenType.PRINT);
         eat(TokenType.OPEN_PAR);
-        if (current.type == TokenType.ADD || current.type == TokenType.STRING
-                || current.type == TokenType.SUB || current.type == TokenType.OPEN_PAR
-                || current.type == TokenType.ID || current.type == TokenType.NUMBER
-                || current.type == TokenType.READ || current.type == TokenType.OPEN_BRA
-                || current.type == TokenType.OPEN_CUR || current.type == TokenType.TONUMBER
-                || current.type == TokenType.TOSTRING || current.type == TokenType.READ) {
+        if (current.type == TokenType.OPEN_PAR || current.type == TokenType.SUB
+                || current.type == TokenType.HASH || current.type == TokenType.NOT || current.type == TokenType.NUMBER
+                || current.type == TokenType.STRING || current.type == TokenType.FALSE
+                || current.type == TokenType.TRUE || current.type == TokenType.NIL
+                || current.type == TokenType.READ || current.type == TokenType.TONUMBER
+                || current.type == TokenType.TOSTRING || current.type == TokenType.OPEN_CUR
+                || current.type == TokenType.OPEN_PAR || current.type == TokenType.ID) {
             procExpr();
+        } else {
+            showError();
         }
         eat(TokenType.CLOSE_PAR);
     }
@@ -178,34 +203,53 @@ public class SyntaticAnalysis {
     // <rel> ::= <concat> [ ('<' | '>' | '<=' | '>=' | '~=' | '==') <concat> ]
     private void procRel() {
         procConcat();
-        // FIXME: Implement me!
+        if (current.type == TokenType.LOWER_THAN || current.type == TokenType.GREATER_THAN
+                || current.type == TokenType.LOWER_EQUAL || current.type == TokenType.GREATER_EQUAL
+                || current.type == TokenType.NOT_EQUAL || current.type == TokenType.EQUAL) {
+            procConcat();
+        }
     }
 
     // <concat> ::= <arith> { '..' <arith> }
     private void procConcat() {
         procArith();
-        // FIXME: Implement me!
+        while (current.type == TokenType.CONCAT) {
+            advance();
+            procArith();
+        }
     }
 
     // <arith> ::= <term> { ('+' | '-') <term> }
     private void procArith() {
         procTerm();
-        // FIXME: Implement me!
+        while (current.type == TokenType.ADD || current.type == TokenType.SUB) {
+            advance();
+            procTerm();
+        }
     }
 
     // <term> ::= <factor> { ('*' | '/' | '%') <factor> }
     private void procTerm() {
         procFactor();
-        // FIXME: Implement me!
+        while (current.type == TokenType.MUL || current.type == TokenType.DIV
+                || current.type == TokenType.MOD) {
+            advance();
+            procFactor();
+        }
     }
 
     // <factor> ::= '(' <expr> ')' | [ '-' | '#' | not] <rvalue>
     private void procFactor() {
         if (current.type == TokenType.OPEN_PAR) {
-            // FIXME: Implement me!
-        } else {
-            // FIXME: Implement me!
-
+            procExpr();
+            eat(TokenType.CLOSE_PAR);
+        } else if (current.type == TokenType.SUB || current.type == TokenType.OPEN_PAR
+                || current.type == TokenType.HASH || current.type == TokenType.NUMBER
+                || current.type == TokenType.STRING || current.type == TokenType.FALSE
+                || current.type == TokenType.TRUE || current.type == TokenType.NIL
+                || current.type == TokenType.READ || current.type == TokenType.TONUMBER
+                || current.type == TokenType.TOSTRING || current.type == TokenType.OPEN_CUR
+                || current.type == TokenType.ID) {
             procRValue();
         }
     }
@@ -218,10 +262,12 @@ public class SyntaticAnalysis {
             if (current.type == TokenType.DOT) {
                 advance();
                 procName();
-            } else {
+            } else if (current.type == TokenType.DOT) {
                 advance();
                 procExpr();
                 eat(TokenType.CLOSE_BRA);
+            } else {
+                showError();
             }
         }
     }
@@ -266,14 +312,53 @@ public class SyntaticAnalysis {
 
     // <function> ::= (read | tonumber | tostring) '(' [ <expr> ] ')'
     private void procFunction() {
+        if ((current.type == TokenType.READ) || (current.type == TokenType.TONUMBER)
+                || (current.type == TokenType.TOSTRING)) {
+            advance();
+        } else {
+            showError();
+        }
+        eat(TokenType.OPEN_PAR);
+        if (current.type == TokenType.OPEN_PAR || current.type == TokenType.SUB
+                || current.type == TokenType.HASH || current.type == TokenType.NOT || current.type == TokenType.NUMBER
+                || current.type == TokenType.STRING || current.type == TokenType.FALSE
+                || current.type == TokenType.TRUE || current.type == TokenType.NIL
+                || current.type == TokenType.READ || current.type == TokenType.TONUMBER
+                || current.type == TokenType.TOSTRING || current.type == TokenType.OPEN_CUR
+                || current.type == TokenType.OPEN_PAR || current.type == TokenType.ID) {
+            procExpr();
+        }
+        eat(TokenType.CLOSE_PAR);
     }
 
     // <table> ::= '{' [ <elem> { ',' <elem> } ] '}'
     private void procTable() {
+        eat(TokenType.OPEN_CUR);
+        if (current.type == TokenType.OPEN_PAR || current.type == TokenType.SUB
+                || current.type == TokenType.HASH || current.type == TokenType.NOT || current.type == TokenType.NUMBER
+                || current.type == TokenType.STRING || current.type == TokenType.FALSE
+                || current.type == TokenType.TRUE || current.type == TokenType.NIL
+                || current.type == TokenType.READ || current.type == TokenType.TONUMBER
+                || current.type == TokenType.TOSTRING || current.type == TokenType.OPEN_CUR
+                || current.type == TokenType.OPEN_PAR || current.type == TokenType.ID) {
+            procElem();
+            while (current.type == TokenType.COLON) {
+                advance();
+                procElem();
+            }
+        }
+        eat(TokenType.CLOSE_CUR);
+
     }
 
     // <elem> ::= [ '[' <expr> ']' '=' ] <expr>
     private void procElem() {
+        if (current.type == TokenType.OPEN_BRA) {
+            procExpr();
+            eat(TokenType.CLOSE_BRA);
+            eat(TokenType.EQUAL);
+        }
+        procExpr();
     }
 
     private void procName() {
