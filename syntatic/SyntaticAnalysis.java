@@ -33,7 +33,6 @@ public class SyntaticAnalysis {
         if (type == current.type) {
             current = lex.nextToken();
         } else {
-            System.out.println("Esperava outro...000");
             showError();
         }
     }
@@ -87,7 +86,6 @@ public class SyntaticAnalysis {
         } else if (current.type == TokenType.ID) {
             procAssign();
         } else {
-            System.out.println("Esperava outro...1");
             showError();
         }
 
@@ -209,11 +207,9 @@ public class SyntaticAnalysis {
     // <rel> ::= <concat> [ ('<' | '>' | '<=' | '>=' | '~=' | '==') <concat> ]
     private void procRel() {
         procConcat();
-        System.out.println("AQUIII*** > " + current.type + "  " + current.token);
         if (current.type == TokenType.LOWER_THAN || current.type == TokenType.GREATER_THAN
                 || current.type == TokenType.LOWER_EQUAL || current.type == TokenType.GREATER_EQUAL
                 || current.type == TokenType.NOT_EQUAL || current.type == TokenType.EQUAL) {
-            System.out.println("Entrou .1");
             advance();
             procConcat();
         }
@@ -221,10 +217,8 @@ public class SyntaticAnalysis {
 
     // <concat> ::= <arith> { '..' <arith> }
     private void procConcat() {
-        System.out.println("Entrou .X");
         procArith();
         while (current.type == TokenType.CONCAT) {
-            System.out.println("Entrou .0,5");
             advance();
             procArith();
         }
@@ -252,6 +246,7 @@ public class SyntaticAnalysis {
     // <factor> ::= '(' <expr> ')' | [ '-' | '#' | not] <rvalue>
     private void procFactor() {
         if (current.type == TokenType.OPEN_PAR) {
+            advance();
             procExpr();
             eat(TokenType.CLOSE_PAR);
         } else {
@@ -277,7 +272,6 @@ public class SyntaticAnalysis {
                 procExpr();
                 eat(TokenType.CLOSE_BRA);
             } else {
-                System.out.println("Esperava outro...4");
                 showError();
             }
         }
@@ -317,7 +311,6 @@ public class SyntaticAnalysis {
         } else if (current.type == TokenType.NIL) {
             advance();
         } else {
-            System.out.println("Esperava outro...6");
             showError();
         }
     }
@@ -328,7 +321,6 @@ public class SyntaticAnalysis {
                 || (current.type == TokenType.TOSTRING)) {
             advance();
         } else {
-            System.out.println("Esperava outro...7");
             showError();
         }
         eat(TokenType.OPEN_PAR);
