@@ -48,6 +48,7 @@ public class LexicalAnalysis implements AutoCloseable {
                         line++;
                         state = 1;
                     } else if (c == '-') {
+                        lex.token += (char) c;
                         state = 2;
                     } else if (c == '=' || c == '<' || c == '>') {
                         lex.token += (char) c;
@@ -82,24 +83,27 @@ public class LexicalAnalysis implements AutoCloseable {
                     break;
                 case 2:
                     if (c == '-') {
-                        lex.token += (char) c;
                         state = 3;
+                    }
+                    if (c != '-') {
+                        ungetc(c);
+                        state = 17;
                     }
                     break;
                 case 3:
                     if (c == '[') {
-                        lex.token += (char) c;
+                        lex.token = "";
                         state = 4;
                     } else if (c == '\n') {
                         line++;
                         state = 1;
                     } else {
+                        lex.token = "";
                         state = 9;
                     }
                     break;
                 case 4:
                     if (c == '[') {
-                        lex.token += (char) c;
                         state = 5;
                     } else if (c == '\n') {
                         line++;
@@ -110,7 +114,6 @@ public class LexicalAnalysis implements AutoCloseable {
                     break;
                 case 5:
                     if (c == '-') {
-                        lex.token += (char) c;
                         state = 6;
                     } else {
                         state = 5;
@@ -118,7 +121,6 @@ public class LexicalAnalysis implements AutoCloseable {
                     break;
                 case 6:
                     if (c == '-') {
-                        lex.token += (char) c;
                         state = 7;
                     } else {
                         state = 5;
@@ -126,9 +128,8 @@ public class LexicalAnalysis implements AutoCloseable {
                     break;
                 case 7:
                     if (c == '-') {
-                        lex.token += (char) c;
                         state = 7;
-                    } else if (c == '[') {
+                    } else if (c == ']') {
                         state = 8;
                     } else {
                         state = 5;
@@ -136,9 +137,8 @@ public class LexicalAnalysis implements AutoCloseable {
                     break;
                 case 8:
                     if (c == '-') {
-                        lex.token += (char) c;
                         state = 6;
-                    } else if (c == '[') {
+                    } else if (c == ']') {
                         state = 1;
                     } else {
                         state = 5;
@@ -219,6 +219,7 @@ public class LexicalAnalysis implements AutoCloseable {
                         state = 16;
                     } else {
                         ungetc(c);
+                        lex.type = TokenType.NUMBER;
                         state = 18;
                     }
                     break;
