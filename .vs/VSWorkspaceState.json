@@ -1,0 +1,12 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\interpreter",
+    "\\interpreter\\command",
+    "\\interpreter\\expr",
+    "\\interpreter\\util",
+    "\\interpreter\\value"
+  ],
+  "SelectedNode": "\\interpreter\\command\\BlocksCommand.java",
+  "PreviewInSolutionExplorer": false
+}
