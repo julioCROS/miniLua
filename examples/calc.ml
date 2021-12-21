@@ -60,3 +60,6 @@ end
 print()
 print("Estatisticas:")
 print(" " .. stats.add .. (stats.add == 1 and " adicao" or " adicoes"))
+print(" " .. stats.sub .. (stats.sub == 1 and " substracao" or " subtracoes"))
+print(" " .. stats.mul .. (stats.mul == 1 and " multiplicacao" or " multiplicacoes"))
+print(" " .. stats.div .. (stats.div == 1 and " divisao" or " divisoes"))
