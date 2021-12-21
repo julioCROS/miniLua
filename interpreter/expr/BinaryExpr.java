@@ -16,6 +16,35 @@ public class BinaryExpr extends Expr{
 
     @Override
     public Value<?> expr() {
-        return this.value;
+        switch (op) {
+            case AndOp:
+                return left && right;
+            OrOp:
+                return left || right;
+            EqualOp:
+                return left == right;
+            NotEqualOp:
+                return left != right;
+            LowerThanOp:
+                return left < right;
+            LowerEqualOp:
+                return left <= right;
+            GreaterThanOp:
+                return left > right;
+            GreaterEqualOp:
+                return left >= right;
+            ConcatOp:
+                return left + right;
+            AddOp:
+                return left + right;
+            SubOp:
+                return left - right;
+            MulOp:
+                return left * right;
+            DivOp:
+                return left / right;
+            ModOp:
+                return left % right;
+        }
     }
 }
