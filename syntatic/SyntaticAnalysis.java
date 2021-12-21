@@ -100,9 +100,7 @@ public class SyntaticAnalysis {
     // end
     private void procIf() {
         eat(TokenType.IF);
-        System.out.println("TESTE 00");
         procExpr();
-        System.out.println("TESTE 00");
         eat(TokenType.THEN);
         procCode();
         while (current.type == TokenType.ELSEIF) {
@@ -155,7 +153,6 @@ public class SyntaticAnalysis {
             eat(TokenType.IN);
             procExpr();
         } else {
-            System.out.println("Esperava outro...2");
             showError();
         }
         eat(TokenType.DO);
@@ -175,9 +172,6 @@ public class SyntaticAnalysis {
                 || current.type == TokenType.TOSTRING || current.type == TokenType.OPEN_CUR
                 || current.type == TokenType.OPEN_PAR || current.type == TokenType.ID) {
             procExpr();
-        } else {
-            System.out.println("Esperava outro...3");
-            showError();
         }
         eat(TokenType.CLOSE_PAR);
     }
@@ -215,19 +209,22 @@ public class SyntaticAnalysis {
     // <rel> ::= <concat> [ ('<' | '>' | '<=' | '>=' | '~=' | '==') <concat> ]
     private void procRel() {
         procConcat();
+        System.out.println("AQUIII*** > " + current.type + "  " + current.token);
         if (current.type == TokenType.LOWER_THAN || current.type == TokenType.GREATER_THAN
                 || current.type == TokenType.LOWER_EQUAL || current.type == TokenType.GREATER_EQUAL
                 || current.type == TokenType.NOT_EQUAL || current.type == TokenType.EQUAL) {
+            System.out.println("Entrou .1");
             advance();
-            System.out.println("Entrou aqui hehe");
             procConcat();
         }
     }
 
     // <concat> ::= <arith> { '..' <arith> }
     private void procConcat() {
+        System.out.println("Entrou .X");
         procArith();
         while (current.type == TokenType.CONCAT) {
+            System.out.println("Entrou .0,5");
             advance();
             procArith();
         }
@@ -254,7 +251,6 @@ public class SyntaticAnalysis {
 
     // <factor> ::= '(' <expr> ')' | [ '-' | '#' | not] <rvalue>
     private void procFactor() {
-        System.out.println("Entrou ProcFactor");
         if (current.type == TokenType.OPEN_PAR) {
             procExpr();
             eat(TokenType.CLOSE_PAR);
@@ -262,7 +258,6 @@ public class SyntaticAnalysis {
             if (current.type == TokenType.HASH || current.type == TokenType.SUB
                     || current.type == TokenType.NOT) {
                 advance();
-                System.out.println("**** Entrou ProcFactor ELSE IF");
             }
             procRValue();
 
@@ -305,7 +300,6 @@ public class SyntaticAnalysis {
         } else if (current.type == TokenType.ID) {
             procLValue();
         } else {
-            System.out.println("Esperava outro...5");
             showError();
         }
     }

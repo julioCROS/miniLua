@@ -48,5 +48,15 @@ for i=2,#exp-1,2 do
 
     
     stats[op] = stats[op] + 1
+  else
+    print(" ???(" .. res .. ", " .. next .. "): erro")
+    res = 0
   end
 end 
+
+
+
+-- Imprimir estatisticas.
+print()
+print("Estatisticas:")
+print(" " .. stats.add .. (stats.add == 1 and " adicao" or " adicoes"))
