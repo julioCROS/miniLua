@@ -1,6 +1,30 @@
 package syntatic;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Vector;
+
 import interpreter.command.Command;
+//import interpreter.command.AssignCommand;
+//import interpreter.command.BlocksCommand;
+//import interpreter.command.PrintCommand;
+//import interpreter.command.WhileCommand;
+//import interpreter.expr.ConstExpr;
+import interpreter.expr.Expr;
+//import interpreter.expr.SetExpr;
+//import interpreter.expr.TableEntry;
+//import interpreter.expr.TableExpr;
+//import interpreter.expr.UnaryExpr;
+import interpreter.expr.UnaryOp;
+//import interpreter.expr.Variable;
+import interpreter.value.BooleanValue;
+import interpreter.value.NumberValue;
+import interpreter.value.StringValue;
+import interpreter.value.Value;
+import lexical.Lexeme;
+import lexical.LexicalAnalysis;
+import lexical.TokenType;
+
 import lexical.Lexeme;
 import lexical.LexicalAnalysis;
 import lexical.TokenType;
@@ -317,8 +341,11 @@ public class SyntaticAnalysis {
 
     // <function> ::= (read | tonumber | tostring) '(' [ <expr> ] ')'
     private void procFunction() {
-        if ((current.type == TokenType.READ) || (current.type == TokenType.TONUMBER)
-                || (current.type == TokenType.TOSTRING)) {
+        if (current.type == TokenType.READ) {
+            advance();
+        } else if (current.type == TokenType.TONUMBER) {
+            advance();
+        } else if (current.type == TokenType.TOSTRING) {
             advance();
         } else {
             showError();
