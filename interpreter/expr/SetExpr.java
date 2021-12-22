@@ -2,7 +2,7 @@ package interpreter.expr;
 
 import interpreter.value.Value;
 
-public class SetExpr extends Expr{
+public abstract class SetExpr extends Expr{
     protected SetExpr(int line) {
         super(line);
     }

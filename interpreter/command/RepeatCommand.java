@@ -1,7 +1,6 @@
 package interpreter.command;
 
 import interpreter.expr.Expr;
-import interpreter.value.Value;
 
 public class RepeatCommand extends Command {
     private Command cmds;
@@ -15,6 +14,6 @@ public class RepeatCommand extends Command {
 
     @Override
     public void execute() {
-        // Executar comandos e repetir se a expressão for falsa.
+        // Executar comandos e repetir se a expressï¿½o for falsa.
     }
 }

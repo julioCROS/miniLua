@@ -18,7 +18,6 @@ public class AssignCommand extends Command {
 
     @Override
     public void execute() {
-        // FIXME: Implementar o resto.
         Expr right = rhs.get(0);
         Value<?> v = right.expr();
 

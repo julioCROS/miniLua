@@ -1,7 +1,6 @@
 package interpreter.command;
 
 import interpreter.expr.Expr;
-import interpreter.value.Value;
 
 public class IfCommand extends Command {
     private Expr expr;
@@ -20,6 +19,6 @@ public class IfCommand extends Command {
 
     @Override
     public void execute() {
-        // Executar comandos se a expressão for verdadeira.
+        // Executar comandos se a expressï¿½o for verdadeira.
     }
 }

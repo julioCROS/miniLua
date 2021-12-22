@@ -1,7 +1,7 @@
 package interpreter.command;
 
 import interpreter.expr.Expr;
-import interpreter.value.Value;
+import interpreter.expr.Variable;
 
 public class NumericForCommand extends Command {
     private Variable var;
@@ -22,9 +22,9 @@ public class NumericForCommand extends Command {
     @Override
     public void execute() {
         /*
-        for	 var=expr1,expr2,expr3	 do	 ...	 end (itera	 de	 expr1	 até	
-        expr2	usando	exp3	como	passo	para	incrementar	var;	expr3	é	opcional,	
-        assume-se	o	valor	1	se	não	estiver	presente).
+        for	 var=expr1,expr2,expr3	 do	 ...	 end (itera	 de	 expr1	 atï¿½	
+        expr2	usando	exp3	como	passo	para	incrementar	var;	expr3	ï¿½	opcional,	
+        assume-se	o	valor	1	se	nï¿½o	estiver	presente).
         */
     }
 }

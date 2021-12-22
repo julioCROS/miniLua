@@ -1,6 +1,6 @@
 package interpreter.expr;
 
-public enum UnaryOp {
+public enum BinaryOp {
     AndOp,
     OrOp,
     EqualOp,

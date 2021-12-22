@@ -1,14 +1,19 @@
 package interpreter.expr;
 
+import java.util.Scanner;
+
 import interpreter.util.Utils;
 import interpreter.value.BooleanValue;
 import interpreter.value.NumberValue;
 import interpreter.value.StringValue;
+import interpreter.value.TableValue;
 import interpreter.value.Value;
 
 public class UnaryExpr extends Expr {
     private Expr expr;
     private UnaryOp op;
+
+    private static Scanner in = new Scanner(System.in);
 
     public UnaryExpr(int line, Expr expr, UnaryOp op) {
         super(line);
@@ -26,10 +31,13 @@ public class UnaryExpr extends Expr {
                 ret = negOp(v);
                 break;
             case Size:
-                // Continuar implementação
+                ret = sizeOp(v);
                 break;
             case Not:
                 ret = notOp(v);
+                break;
+            case Read:
+                ret = readOp(v);
                 break;
             default:
                 Utils.abort(super.getLine());
@@ -65,5 +73,29 @@ public class UnaryExpr extends Expr {
         boolean b = (v == null || !v.eval());
         BooleanValue bv = new BooleanValue(b);
         return bv;
+    }
+
+    private Value<?> sizeOp(Value<?> v) {
+        if(v instanceof TableValue) {
+            TableValue tv = (TableValue) v;
+            int size = tv.value().size();
+
+            NumberValue nv = new NumberValue(Double.valueOf(size));
+            return nv;
+        } else {
+            Utils.abort(super.getLine());
+            return null;
+        }
+    }
+
+    private Value<?> readOp(Value<?> v) {
+        if(v instanceof StringValue) {
+            String msg = ((StringValue) v).value();
+            System.out.print(msg);
+        } 
+
+        String s = in.nextLine().trim();
+        StringValue sv = new StringValue(s);
+        return sv;
     }
 }

@@ -1,7 +1,7 @@
 package interpreter.command;
 
 import interpreter.expr.Expr;
-import interpreter.value.Value;
+import interpreter.expr.Variable;
 
 public class GenericForCommand extends Command {
     private Variable var1;
@@ -21,8 +21,8 @@ public class GenericForCommand extends Command {
     public void execute() {
         /*
         for	var1,	var2	in	expr	do	...	end (expr	deve	ser	uma	tabela,	
-        onde	 cada	 iteração	 var1	 recebe	 um	 índice	 e	 var2	 seu	 valor	
-        correspondente;	var2	é	opcional,	assim	apenas	a	chave	var1	é	usada).
+        onde	 cada	 iteraï¿½ï¿½o	 var1	 recebe	 um	 ï¿½ndice	 e	 var2	 seu	 valor	
+        correspondente;	var2	ï¿½	opcional,	assim	apenas	a	chave	var1	ï¿½	usada).
         */
     }
 }

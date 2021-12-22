@@ -14,10 +14,9 @@ public class AccessExpr extends Expr{
 
     @Override
     public Value<?> expr() {
-        return this.value;
+        return null;
     }
 
     public void setValue(Value<?> value) {
-        this.value = value;
     }
 }

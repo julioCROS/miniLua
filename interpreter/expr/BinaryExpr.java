@@ -18,33 +18,35 @@ public class BinaryExpr extends Expr{
     public Value<?> expr() {
         switch (op) {
             case AndOp:
-                return left && right;
-            OrOp:
-                return left || right;
-            EqualOp:
-                return left == right;
-            NotEqualOp:
-                return left != right;
-            LowerThanOp:
-                return left < right;
-            LowerEqualOp:
-                return left <= right;
-            GreaterThanOp:
-                return left > right;
-            GreaterEqualOp:
-                return left >= right;
-            ConcatOp:
-                return left + right;
-            AddOp:
-                return left + right;
-            SubOp:
-                return left - right;
-            MulOp:
-                return left * right;
-            DivOp:
-                return left / right;
-            ModOp:
-                return left % right;
+                // return left && right;
+            case OrOp:
+               // return left || right;
+            case EqualOp:
+                // return left == right;
+            case NotEqualOp:
+                // return left != right;
+            case LowerThanOp:
+                // return left < right;
+            case LowerEqualOp:
+                // return left <= right;
+            case GreaterThanOp:
+                // return left > right;
+            case GreaterEqualOp:
+                // return left >= right;
+            case ConcatOp:
+                // return left + right;
+            case AddOp:
+                // return left + right;
+            case SubOp:
+                //return left - right;
+            case MulOp:
+                //return left * right;
+            case DivOp:
+                //return left / right;
+            case ModOp:
+                //return left % right;
+            default:
+                return null;
         }
     }
 }
