@@ -94,7 +94,7 @@ public class SyntaticAnalysis {
             cmds.add(cmd);
         }
 
-        BlockCommands bc = new BlockCommands(line, cmds);
+        BlocksCommand bc = new BlocksCommand(line, cmds);
         return bc;
     }
 
