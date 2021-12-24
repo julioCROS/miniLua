@@ -39,6 +39,7 @@ public class SymbolTable {
         st.put("%", TokenType.MOD);
         st.put("size", TokenType.SIZE);
         st.put("not", TokenType.NOT);
+        st.put("#", TokenType.HASH);
 
         // KEYWORDS
         st.put("if", TokenType.IF);
