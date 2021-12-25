@@ -1,2 +1,2 @@
-a = read()
-print(a)
+name = read("Digite seu nome: ")
+print(name)
