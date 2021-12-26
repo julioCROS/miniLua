@@ -8,10 +8,8 @@ for symbol, op in ops do
  stats[op] = 0
 end
 
-
 -- Uma tabela com as expressoes.
 exp = {}
-
 
 --[[
  Entrada de dados de uma expressao, onde cada elemento e dado em uma linha separada.
