@@ -1,6 +1,7 @@
 package interpreter.command;
 
 import interpreter.expr.Expr;
+import interpreter.value.BooleanValue;
 
 public class IfCommand extends Command {
     private Expr expr;
@@ -14,11 +15,23 @@ public class IfCommand extends Command {
     }
 
     public void setElseCommands(Command elseCmds) {
-        // Implementar
+        this.elseCmds = elseCmds;
     }
 
     @Override
     public void execute() {
-        // Executar comandos se a express�o for verdadeira.
+        if(expr.expr() != null && expr.expr().value() instanceof BooleanValue)
+        {
+            if(expr.expr().value().equals(Boolean.TRUE))
+            {
+                thenCmds.execute();
+            } else {
+                if(elseCmds != null)
+                {
+                    elseCmds.execute();
+                }
+            }
+
+        }
     }
 }

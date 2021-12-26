@@ -1,6 +1,7 @@
 package interpreter.command;
 
 import interpreter.expr.Expr;
+import interpreter.value.BooleanValue;
 
 public class RepeatCommand extends Command {
     private Command cmds;
@@ -14,6 +15,16 @@ public class RepeatCommand extends Command {
 
     @Override
     public void execute() {
-        // Executar comandos e repetir se a express�o for falsa.
+        /*
+        Executar comandos e repetir se a expressao for falsa.
+        */
+        cmds.execute();
+        if(expr.expr() != null && expr.expr().value() instanceof BooleanValue)
+        {
+            if(expr.expr().value().equals(Boolean.FALSE))
+            {
+                cmds.execute();
+            } 
+        }
     }
 }

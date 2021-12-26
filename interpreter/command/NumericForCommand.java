@@ -2,6 +2,7 @@ package interpreter.command;
 
 import interpreter.expr.Expr;
 import interpreter.expr.Variable;
+import interpreter.value.NumberValue;
 
 public class NumericForCommand extends Command {
     private Variable var;
@@ -22,9 +23,30 @@ public class NumericForCommand extends Command {
     @Override
     public void execute() {
         /*
-        for	 var=expr1,expr2,expr3	 do	 ...	 end (itera	 de	 expr1	 at�	
-        expr2	usando	exp3	como	passo	para	incrementar	var;	expr3	�	opcional,	
-        assume-se	o	valor	1	se	n�o	estiver	presente).
+        for	 var=expr1,expr2,expr3	 do	 ...	 end (itera	 de	 expr1	 ate	
+        expr2	usando	exp3	como	passo	para	incrementar	var;	expr3	e	opcional,	
+        assume-se	o	valor	1	se	nao	estiver	presente).
         */
+        int incrementar;
+        int expressao1;
+        int expressao2;
+
+        if(expr3 != null && expr3.expr() != null && expr3.expr().value() instanceof NumberValue) {
+            incrementar = Integer.parseInt(expr3.expr().toString());
+        } else {
+            incrementar = 1;
+        }
+
+        if(expr1.expr() != null && expr1.expr().value() instanceof NumberValue && expr2.expr() != null && expr2.expr().value() instanceof NumberValue)
+        {
+            expressao1 = Integer.parseInt(expr1.expr().toString());;
+            expressao2 = Integer.parseInt(expr2.expr().toString());;
+            while(expressao2 > expressao1)
+            {
+                cmds.execute();
+                expressao1 = expressao1 + incrementar;
+                var.setValue(new NumberValue((double) expressao1));
+            } 
+        }
     }
 }

@@ -21,8 +21,8 @@ public class GenericForCommand extends Command {
     public void execute() {
         /*
         for	var1,	var2	in	expr	do	...	end (expr	deve	ser	uma	tabela,	
-        onde	 cada	 itera��o	 var1	 recebe	 um	 �ndice	 e	 var2	 seu	 valor	
-        correspondente;	var2	�	opcional,	assim	apenas	a	chave	var1	�	usada).
+        onde	 cada	 iteracao	 var1	 recebe	 um	 indice	 e	 var2	 seu	 valor	
+        correspondente;	var2	e	opcional,	assim	apenas	a	chave	var1	e	usada).
         */
     }
 }
