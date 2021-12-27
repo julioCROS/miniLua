@@ -27,14 +27,14 @@ public class AccessExpr extends Expr{
                 Utils.abort(super.getLine());
             } else {
                 Value<?> ind = this.index.expr();
-                Double key = (double) 0;
+                NumberValue key = new NumberValue((double) 0);
                 TableValue table = (TableValue) v;
                 Map<Value<?>, Value<?>> map = table.value();
                 
                 if(ind instanceof NumberValue) {
-                    key = Double.parseDouble(ind.toString());
+                    key = new NumberValue(Double.parseDouble(ind.toString()));
                 } else if (ind instanceof StringValue) {
-                    key = Double.parseDouble(ind.toString());
+                    key = new NumberValue(Double.parseDouble(ind.toString()));
                 } else {
                     Utils.abort(super.getLine());
                 }
