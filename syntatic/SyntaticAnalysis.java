@@ -287,17 +287,20 @@ public class SyntaticAnalysis {
     // <expr> ::= <rel> { (and | or) <rel> }
     private Expr procExpr() {
         Expr expr = procRel();
-        while (current.type == TokenType.AND || current.type == TokenType.OR) {
-            BinaryOp op = null;
-            if (current.type == TokenType.AND) {
-                advance();
-                op = BinaryOp.AndOp;
-            } else if (current.type == TokenType.OR) {
-                op = BinaryOp.OrOp;
+        if (current.type == TokenType.AND || current.type == TokenType.OR) {
+            BinaryExpr be = null;
+            while (current.type == TokenType.AND || current.type == TokenType.OR) {
+                BinaryOp op = null;
+                if (current.type == TokenType.AND) {
+                    advance();
+                    op = BinaryOp.AndOp;
+                } else if (current.type == TokenType.OR) {
+                    op = BinaryOp.OrOp;
+                }
+                int line = lex.getLine();
+                Expr right = procRel();
+                be = new BinaryExpr(line, expr, op, right);
             }
-            int line = lex.getLine();
-            Expr right = procRel();
-            BinaryExpr be = new BinaryExpr(line, expr, op, right);
             return be;
         }
         return expr;
@@ -317,40 +320,39 @@ public class SyntaticAnalysis {
         } else if (current.type == TokenType.GREATER_THAN) {
             advance();
             int line = lex.getLine();
-            BinaryOp op = BinaryOp.GreaterThanOp;
             Expr right = procConcat();
+            BinaryOp op = BinaryOp.GreaterThanOp;
             BinaryExpr be = new BinaryExpr(line, left, op, right);
             return be;
         } else if (current.type == TokenType.LOWER_EQUAL) {
             advance();
             int line = lex.getLine();
-            BinaryOp op = BinaryOp.LowerEqualOp;
             Expr right = procConcat();
+            BinaryOp op = BinaryOp.LowerEqualOp;
             BinaryExpr be = new BinaryExpr(line, left, op, right);
             return be;
         } else if (current.type == TokenType.GREATER_EQUAL) {
             advance();
             int line = lex.getLine();
-            BinaryOp op = BinaryOp.GreaterEqualOp;
             Expr right = procConcat();
+            BinaryOp op = BinaryOp.GreaterEqualOp;
             BinaryExpr be = new BinaryExpr(line, left, op, right);
             return be;
         } else if (current.type == TokenType.NOT_EQUAL) {
             advance();
             int line = lex.getLine();
-            BinaryOp op = BinaryOp.NotEqualOp;
             Expr right = procConcat();
+            BinaryOp op = BinaryOp.NotEqualOp;
             BinaryExpr be = new BinaryExpr(line, left, op, right);
             return be;
         } else if (current.type == TokenType.EQUAL) {
             advance();
             int line = lex.getLine();
-            BinaryOp op = BinaryOp.EqualOp;
             Expr right = procConcat();
+            BinaryOp op = BinaryOp.EqualOp;
             BinaryExpr be = new BinaryExpr(line, left, op, right);
             return be;
         }
-
         return left;
     }
 
@@ -358,12 +360,15 @@ public class SyntaticAnalysis {
     private Expr procConcat() {
         Expr left = procArith();
 
-        while (current.type == TokenType.CONCAT) {
-            advance();
-            int line = lex.getLine();
-            BinaryOp op = BinaryOp.ConcatOp;
-            Expr right = procArith();
-            BinaryExpr be = new BinaryExpr(line, left, op, right);
+        if (current.type == TokenType.CONCAT) {
+            BinaryExpr be = null;
+            while (current.type == TokenType.CONCAT) {
+                advance();
+                int line = lex.getLine();
+                Expr right = procArith();
+                BinaryOp op = BinaryOp.ConcatOp;
+                be = new BinaryExpr(line, left, op, right);
+            }
             return be;
         }
 
