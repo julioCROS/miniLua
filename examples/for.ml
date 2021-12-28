@@ -1,3 +1,3 @@
-for i = 0, 5, 1 do
+for i = 0, 5 do
  print("Teste for")
 end
